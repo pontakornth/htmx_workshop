@@ -46,3 +46,7 @@ def comment_create(request, pk):
     else:
         # TODO: Redirect
         return redirect('blog:post_detail', pk=pk)
+
+
+def about(request):
+    return render(request, 'blog/about.html')
