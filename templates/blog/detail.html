@@ -9,10 +9,10 @@
             {% include 'blog/partials/_post_detailed.html' %}
         </div>
         {% comment_form method="post" action=comment_create_url csrf_token=csrf_token form=form %}
+        <div class="col-12">
+            <h1>Comments</h1>
+        </div>
         {% for comment in comments %}
-            <div class="col-12">
-                <h1>Comments</h1>
-            </div>
             <div class="col-12">
                 {% include 'blog/partials/_comment.html' %}
             </div>
