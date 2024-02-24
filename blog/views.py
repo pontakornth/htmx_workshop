@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from blog.forms import PostForm
 from blog.models import Post
@@ -6,9 +6,9 @@ from blog.models import Post
 
 # Create your views here.
 def post_list(request):
-    # TODO: Insert new post form here.
     posts = Post.objects.all()
-    return render(request, 'blog/list.html', {'posts': posts})
+    form = PostForm()
+    return render(request, 'blog/list.html', {'posts': posts, 'form': form})
 
 
 def post_detail(request, pk):
@@ -19,14 +19,12 @@ def post_detail(request, pk):
 
 def post_create(request):
     if request.method == 'POST':
-        form = PostForm(request)
+        form = PostForm(request.POST)
         if form.is_valid():
             form.save()
-            # TODO: Redirect
-            pass
+            return redirect('blog:post_detail', pk=form.instance.pk)
         else:
-            # TODO: Render form
-            pass
+            return render(request, 'blog/list.html', {form: 'form', 'posts': Post.objects.all()})
     else:
         # TODO: Redirect
         pass

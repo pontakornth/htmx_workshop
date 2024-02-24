@@ -1,5 +1,9 @@
 {% extends 'layout.html' %}
 {% block main %}
+    <div class="mb-3">
+    {% url 'blog:post_create' as post_create_url %}
+    {% post_form action=post_create_url method="post" form=form csrf_token=csrf_token  %}
+    </div>
     <div class="row g-2">
         {% for post in posts %}
             <div class="col-12">

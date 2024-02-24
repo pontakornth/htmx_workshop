@@ -1,0 +1,2 @@
+components:
+  post_form: 'blog/components/post_form.html'
