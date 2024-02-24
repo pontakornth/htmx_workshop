@@ -1,2 +1,3 @@
 components:
   post_form: 'blog/components/post_form.html'
+  comment_form: 'blog/components/comment_form.html'

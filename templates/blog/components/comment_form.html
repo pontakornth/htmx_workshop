@@ -1,0 +1,15 @@
+<form
+        action="{{ action }}"
+        method="{{ method }}"
+        {% attrs hx-post hx-put %}
+>
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="{{ form.content.id_for_label }}" class="form-label">{{ form.content.label }}</label>
+        <textarea class="form-control" id="{{ form.content.id_for_label }}"
+                  name="{{ form.content.html_name }}"></textarea>
+    </div>
+    <div class="mb-3">
+        <input type="submit" value="Post" class="btn btn-primary">
+    </div>
+</form>

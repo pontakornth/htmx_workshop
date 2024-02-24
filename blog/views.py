@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from blog.forms import PostForm
+from blog.forms import PostForm, CommentForm
 from blog.models import Post
 
 
@@ -14,7 +14,8 @@ def post_list(request):
 def post_detail(request, pk):
     post = Post.objects.get(pk=pk)
     comments = post.comment_set.all()
-    return render(request, 'blog/detail.html', {'post': post, 'comments': comments})
+    form = CommentForm()
+    return render(request, 'blog/detail.html', {'post': post, 'comments': comments, 'form': form})
 
 
 def post_create(request):
@@ -24,7 +25,24 @@ def post_create(request):
             form.save()
             return redirect('blog:post_detail', pk=form.instance.pk)
         else:
+            # TODO: Render HTMX form
             return render(request, 'blog/list.html', {form: 'form', 'posts': Post.objects.all()})
     else:
         # TODO: Redirect
-        pass
+        return redirect('blog:post_list')
+
+
+def comment_create(request, pk):
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = Post.objects.get(pk=pk)
+            comment.save()
+            return redirect('blog:post_detail', pk=pk)
+        else:
+            # TODO: Render HTMX form
+            pass
+    else:
+        # TODO: Redirect
+        return redirect('blog:post_detail', pk=pk)
