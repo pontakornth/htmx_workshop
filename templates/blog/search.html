@@ -4,13 +4,17 @@
     <form
             class="mb-3"
             action="{% url 'blog:post_search' %}"
+            hx-get="{% url 'blog:post_search' %}"
+            hx-target="#search-result"
+            hx-select="#search-result"
+            hx-trigger="keyup changed delay:1s from:(form input), submit"
             method="get">
         {{ form | crispy }}
         <button type="submit" class="btn btn-primary">
             <span class="bi-search"></span>Search
         </button>
     </form>
-    <div class="row g-2">
+    <div class="row g-2" id="search-result">
         {% for post in posts %}
             {% include 'blog/partials/_post.html' %}
         {% empty %}

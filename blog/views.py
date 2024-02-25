@@ -1,7 +1,7 @@
 from http import HTTPStatus
 
 from django.shortcuts import render, redirect
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_GET
 
 from blog.forms import PostForm, CommentForm, SearchForm
 from blog.models import Post
@@ -66,13 +66,12 @@ def about(request):
     return render(request, 'blog/about.html')
 
 
+@require_GET
 def search(request):
-    if request.method == 'GET':
-        form = SearchForm(request.GET)
-        posts = Post.objects.none()
-        if form.is_valid():
-            q = form.cleaned_data['q']
-            if q is not None and len(q) > 0:
-                posts = Post.objects.filter(content__icontains=q)
-        return render(request, 'blog/search.html', {'posts': posts, 'form': form})
-    return redirect('blog:post_search')
+    form = SearchForm(request.GET)
+    posts = Post.objects.none()
+    if form.is_valid():
+        q = form.cleaned_data['q']
+        if q is not None and len(q) > 0:
+            posts = Post.objects.filter(content__icontains=q)
+    return render(request, 'blog/search.html', {'posts': posts, 'form': form})
