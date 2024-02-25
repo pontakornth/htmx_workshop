@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+{% load crispy_forms_tags %}
+{% block main %}
+    <form
+            class="mb-3"
+            action="{% url 'blog:post_search' %}"
+            method="get">
+        {{ form | crispy }}
+        <button type="submit" class="btn btn-primary">
+            <span class="bi-search"></span>Search
+        </button>
+    </form>
+    <div class="row g-2">
+        {% for post in posts %}
+            <div class="col-12">
+                {% include 'blog/partials/_post.html' %}
+            </div>
+        {% empty %}
+            <div class="col-12 text-muted">
+                <p>There is no post matched the query or the query is empty.</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -8,7 +8,7 @@
 
             {% include 'blog/partials/_post_detailed.html' %}
         </div>
-        {% comment_form method="post" action=comment_create_url csrf_token=csrf_token form=form %}
+        {% include 'blog/partials/_new_comment_form.html' %}
         <div class="col-12">
             <h1>Comments</h1>
         </div>
