@@ -12,9 +12,7 @@
     </form>
     <div class="row g-2">
         {% for post in posts %}
-            <div class="col-12">
-                {% include 'blog/partials/_post.html' %}
-            </div>
+            {% include 'blog/partials/_post.html' %}
         {% empty %}
             <div class="col-12 text-muted">
                 <p>There is no post matched the query or the query is empty.</p>

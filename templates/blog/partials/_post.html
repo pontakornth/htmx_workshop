@@ -1,12 +1,14 @@
-<div class="card">
-    <div class="card-body"
-            {% if post.colored %}
-                {# If you are using this, please sanitize your input on the server side. #}
-         style="background-color:{{ post.background_color }};color:{{ post.text_color }}"
-            {% endif %}
-    >
-        <p class="card-text">{{ post.content }}</p>
+<div class="col-12">
+    <div class="card">
+        <div class="card-body"
+                {% if post.colored %}
+                    {# If you are using this, please sanitize your input on the server side. #}
+             style="background-color:{{ post.background_color }};color:{{ post.text_color }}"
+                {% endif %}
+        >
+            <p class="card-text">{{ post.content }}</p>
+        </div>
+        <a class="stretched-link" href="{% url 'blog:post_detail' post.id %}">
+        </a>
     </div>
-    <a class="stretched-link" href="{% url 'blog:post_detail' post.id %}">
-    </a>
 </div>

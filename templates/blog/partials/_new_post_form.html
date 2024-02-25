@@ -1,10 +1,12 @@
 {% load crispy_forms_tags %}
 <form
         action="{% url 'blog:post_create'  %}"
+        hx-post="{% url 'blog:post_create' %}"
+        hx-target="#posts"
+        hx-swap="afterbegin"
+        hx-target-422="this"
         method="post"
         x-data="{colored: false}"
-        {# HX method will be set separately  #}
-        {# hx-post="{% url 'blog:post_create' %}" #}
         {% attrs hx-post hx-put %}
 
 >

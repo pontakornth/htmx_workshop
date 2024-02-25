@@ -1,4 +1,7 @@
+from http import HTTPStatus
+
 from django.shortcuts import render, redirect
+from django.views.decorators.http import require_POST
 
 from blog.forms import PostForm, CommentForm, SearchForm
 from blog.models import Post
@@ -22,29 +25,40 @@ def post_create(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
-            form.save()
+            post = form.save()
+            if request.htmx:
+                return render(request, 'blog/partials/_post.html', {'post': post})
             return redirect('blog:post_detail', pk=form.instance.pk)
         else:
-            # TODO: Render HTMX form
+            if request.htmx:
+                response = render(request, 'blog/partials/_new_post_form.html', {'form': form},
+                                  status=HTTPStatus.UNPROCESSABLE_ENTITY)
+                response.headers['HX-Retarget'] = 'this'
+                response.headers['HX-Reswap'] = 'outerHTML'
+                return response
             return render(request, 'blog/list.html', {form: 'form', 'posts': Post.objects.all()})
     else:
         # TODO: Redirect
         return redirect('blog:post_list')
 
 
+@require_POST
 def comment_create(request, pk):
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.post = Post.objects.get(pk=pk)
-            comment.save()
-            return redirect('blog:post_detail', pk=pk)
-        else:
-            # TODO: Render HTMX form
-            pass
+    form = CommentForm(request.POST)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.post = Post.objects.get(pk=pk)
+        comment.save()
+        if request.htmx:
+            return render(request, 'blog/partials/_comment.html', {'comment': comment})
+        return redirect('blog:post_detail', pk=pk)
     else:
-        # TODO: Redirect
+        if request.htmx:
+            response = render(request, 'blog/partials/_new_comment_form.html',
+                              {'form': form, 'post': Post.objects.get(pk=pk)})
+            response.headers['HX-Retarget'] = 'this'
+            response.headers['HX-Reswap'] = 'outerHTML'
+            return response
         return redirect('blog:post_detail', pk=pk)
 
 

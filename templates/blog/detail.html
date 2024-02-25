@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block main %}
     <div class="mb-3">
-    {% url 'blog:comment_create' post.id as comment_create_url %}
+        {% url 'blog:comment_create' post.id as comment_create_url %}
     </div>
     <div class="row g-4 mb-4">
         <div class="col-12">
@@ -12,15 +12,15 @@
         <div class="col-12">
             <h1>Comments</h1>
         </div>
-        {% for comment in comments %}
-            <div class="col-12">
+        <div class="col-12 row g-4" id="comments">
+            {% for comment in comments %}
                 {% include 'blog/partials/_comment.html' %}
-            </div>
-        {% empty %}
-            <div class="col-12 p-4">
-                <p class="text-muted">No comment here.</p>
-            </div>
-        {% endfor %}
+            {% empty %}
+                <div class="col-12 p-4">
+                    <p class="text-muted">No comment here.</p>
+                </div>
+            {% endfor %}
+        </div>
 
     </div>
 

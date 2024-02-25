@@ -2,6 +2,9 @@
 <form
         action="{% url 'blog:comment_create' post.pk %}"
         method="post"
+        hx-post="{% url 'blog:comment_create' post.pk %}"
+        hx-target="#comments"
+        hx-swap="afterbegin"
 >
     {% csrf_token %}
     {{ form | crispy }}
