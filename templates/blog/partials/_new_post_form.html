@@ -5,7 +5,6 @@
         x-data="{colored: false}"
         {# HX method will be set separately  #}
         {# hx-post="{% url 'blog:post_create' %}" #}
-        {% attrs hx-post hx-put %}
 
 >
     {% crispy form %}
