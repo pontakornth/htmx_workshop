@@ -5,7 +5,7 @@
         {#    {% post_form action=post_create_url method="post" form=form csrf_token=csrf_token  %}#}
         {% include 'blog/partials/_new_post_form.html' %}
     </div>
-    <div class="row g-2" id="posts">
+    <div class="row g-2" id="posts" hx-boost="true">
         {% for post in posts %}
                 {% include 'blog/partials/_post.html' %}
         {% endfor %}
